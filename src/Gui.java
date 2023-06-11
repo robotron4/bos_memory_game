@@ -11,8 +11,8 @@ public class Gui {
         xsend = new XSendAdapterEN();
         Board board = xsend.getBoard();
         Graphic graphic = board.getGraphic();
-        graphic.setTitle("hello motherfucker");
-        xsend.size(5,5);
+        graphic.setTitle("MEMORY");
+        xsend.size(5, 5);      //Magic Number!!
         graphic.setLocationRelativeTo(null);
     }
 
