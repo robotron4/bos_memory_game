@@ -8,7 +8,7 @@ import java.util.List;
 public class MemoryBoard {
 
     private List<Position> positions;
-    public Pair[] pairs;
+    private Pair[] pairs;
     private XSendAdapterEN xSend;
 
     public MemoryBoard(XSendAdapterEN xSend){
@@ -47,6 +47,11 @@ public class MemoryBoard {
                 new Pair(positions.get(28), positions.get(29), XSend.CRIMSON)
         };
     }
+
+    public Pair[] getPairs() {
+        return pairs;
+    }
+
     public void draw () {
         for(Pair pair : pairs){
             xSend.color2(pair.getPosition1().getX(), pair.getPosition1().getY(), pair.getColor());

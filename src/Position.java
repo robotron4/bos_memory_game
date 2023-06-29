@@ -13,6 +13,10 @@ public class Position {
         return this.x + " | " + this.y;
     }
 
+    public boolean equals(Position other) {
+        return other.x == this.x && other.y == this.y;
+    }
+
     public int getX(){
         return x;
     }

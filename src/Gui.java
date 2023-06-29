@@ -26,8 +26,21 @@ public class Gui implements BoardClickListener {
 
     @Override
     public void boardClick(BoardClickEvent event) {
-        //xsend.color2(event.getX(), event.getY(), memoryBoard.pairs[].getColor());
+        flipCard(new Position(event.getX(), event.getY()));
         //System.out.println(event.getX() + " " + event.getY());
         System.out.println(event);
     }
+    public void flipCard(Position clickPosition) {
+
+        for(Pair pair : memoryBoard.getPairs()){
+            Position position1 = pair.getPosition1();
+            Position position2 = pair.getPosition2();
+            if(pair.getPosition1().equals(clickPosition)){
+                xsend.color2(position1.getX(), position1.getY(), pair.getColor());
+            } else if (pair.getPosition2().equals(clickPosition)) {
+                xsend.color2(position2.getX(), position2.getY(), pair.getColor());
+            }
+        }
+    }
+
 }
