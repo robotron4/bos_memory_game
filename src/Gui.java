@@ -8,6 +8,7 @@ public class Gui implements BoardClickListener {
     private XSendAdapterEN xsend;
     public static final int SIZE_X = 6;
     public static final int SIZE_Y = 5;
+    MemoryBoard memoryBoard;
 
     public Gui(){
         xsend = new XSendAdapterEN();
@@ -20,12 +21,12 @@ public class Gui implements BoardClickListener {
         xsend.forms("s");
         xsend.symbolSizes(0.43);
         graphic.setLocationRelativeTo(null);
-        MemoryBoard memoryBoard = new MemoryBoard(xsend);
+        memoryBoard = new MemoryBoard(xsend);
     }
 
     @Override
     public void boardClick(BoardClickEvent event) {
-        xsend.color2(event.getX(), event.getY(), XSend.BLUEVIOLET);
+        //xsend.color2(event.getX(), event.getY(), memoryBoard.pairs[].getColor());
         //System.out.println(event.getX() + " " + event.getY());
         System.out.println(event);
     }

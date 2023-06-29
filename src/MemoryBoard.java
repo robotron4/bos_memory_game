@@ -8,7 +8,7 @@ import java.util.List;
 public class MemoryBoard {
 
     private List<Position> positions;
-    private Pair[] pairs;
+    public Pair[] pairs;
     private XSendAdapterEN xSend;
 
     public MemoryBoard(XSendAdapterEN xSend){
@@ -19,7 +19,7 @@ public class MemoryBoard {
         //positions.forEach(System.out::println);
         this.pairs = new Pair[positions.size() / 2];
         initPairs();
-        draw();
+        //draw();
     }
     public void initBoardPositions() {
         for(int x = 0; x < Gui.SIZE_X; x++){
