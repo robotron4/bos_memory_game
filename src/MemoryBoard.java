@@ -40,10 +40,10 @@ public class MemoryBoard {
                 new Pair(positions.get(14), positions.get(15), XSend.AQUA),
                 new Pair(positions.get(16), positions.get(17), XSend.BEIGE),
                 new Pair(positions.get(18), positions.get(19), XSend.BLUEVIOLET),
-                new Pair(positions.get(20), positions.get(21), XSend.BROWN),
+                new Pair(positions.get(20), positions.get(21), XSend.MISTYROSE),
                 new Pair(positions.get(22), positions.get(23), XSend.ORANGE),
                 new Pair(positions.get(24), positions.get(25), XSend.DARKRED),
-                new Pair(positions.get(26), positions.get(27), XSend.BISQUE),
+                new Pair(positions.get(26), positions.get(27), XSend.LIGHTGREEN),
                 new Pair(positions.get(28), positions.get(29), XSend.CRIMSON)
         };
     }
