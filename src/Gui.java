@@ -13,7 +13,8 @@ public class Gui implements BoardClickListener {
 
     private MemoryBoard memoryBoard;
     private XSendAdapterEN xsend;
-    private int firstClickColor;
+    private Pair selectedPair;
+    private boolean isSelected;
     private Board board;
 
     public Gui(){
@@ -28,26 +29,51 @@ public class Gui implements BoardClickListener {
         xsend.symbolSizes(0.43);
         graphic.setLocationRelativeTo(null);
         memoryBoard = new MemoryBoard(xsend);
+        isSelected = false;
     }
 
     @Override
     public void boardClick(BoardClickEvent event) {
-        flipCard(new Position(event.getX(), event.getY()));
+        this.update(new Position(event.getX(), event.getY()));
     }
 
-    public void flipCard(Position clickPosition) {
+    public void update(Position clickedPosition) {
+        if (this.isSelected) {
+            if (this.isPositionFound(selectedPair, clickedPosition)) {
+                this.isSelected = false;
+            }
+        } else {
+            this.flipCard(clickedPosition);
+        }
+    }
+
+    public void flipCard(Position clickedPosition) {
         for (Pair pair : memoryBoard.getPairs()) {
-            Position position1 = pair.getPosition1();
-            Position position2 = pair.getPosition2();
-            if (pair.getPosition1().equals(clickPosition)) {
-                xsend.color2(position1.getX(), position1.getY(), pair.getColor());
-                this.firstClickColor = pair.getColor();
-            } else if (pair.getPosition2().equals(clickPosition)) {
-                xsend.color2(position2.getX(), position2.getY(), pair.getColor());
-                this.firstClickColor = pair.getColor();
+            if (this.isPositionFound(pair, clickedPosition)) {
+                this.selectedPair = pair;
+                this.isSelected = true;
+            } else {
+                System.out.println("cdwasg!!!!!!!vrae");
             }
         }
     }
+
+    public boolean isPositionFound(Pair pair, Position clickedPosition) {
+        if (pair.getPosition1().equals(clickedPosition)) {
+            this.draw(pair.getPosition1(), pair.getColor());
+            return true;
+        } else if (pair.getPosition2().equals(clickedPosition)) {
+            this.draw(pair.getPosition2(), pair.getColor());
+            return true;
+        }
+        return false;
+    }
+
+    public void draw(Position position, int color) {
+        this.xsend.color2(position.getX(), position.getY(), color);
+    }
+
+
 
     public Symbol getSymbol(Position position) {
         int linearBoardNumber = position.getX() + position.getY() * SIZE_X;
