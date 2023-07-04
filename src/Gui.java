@@ -73,21 +73,6 @@ public class Gui implements BoardClickListener {
         this.draw(this.selectedPair1.getPosition1(), 0xEEEEEE);
         this.draw(this.selectedPair2.getPosition2(), 0xEEEEEE);
     }
-//        if (this.isSelected) {
-//            if (this.selectedPair1.isPositionFound(clickedPosition)) {
-//                this.memoryBoard.getPairs().remove(selectedPair1);
-//
-//            } else {
-//                clear();
-//            }
-//            this.setPair2(clickedPosition);
-//            this.draw(clickedPosition, this.selectedPair2.getColor());
-//            this.isSelected = false;
-//        } else {
-//            this.setPair1(clickedPosition);
-//            this.draw(clickedPosition, this.selectedPair1.getColor());
-//        }
-
 
     public void setPair1(Position clickedPosition) {
         for (Pair pair : memoryBoard.getPairs()) {
