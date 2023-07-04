@@ -10,6 +10,17 @@ public class Pair {
         this.color = color;
     }
 
+    public boolean isPositionFound(Position clickedPosition) {
+        if (this.getPosition1().equals(clickedPosition) || this.getPosition2().equals(clickedPosition)) {
+            return true;
+        }
+        return false;
+    }
+
+    public boolean equals(Pair other) {
+        return this.color == other.color;
+    }
+
     public Position getPosition1(){
         return position1;
     }
@@ -19,4 +30,5 @@ public class Pair {
     public int getColor(){
         return color;
     }
+
 }

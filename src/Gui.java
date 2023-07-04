@@ -2,8 +2,6 @@ import jserver.*;
 import jserver.Board;
 import plotter.Graphic;
 
-import java.sql.SQLOutput;
-
 // xsendadapter, board, graphic
 
 public class Gui implements BoardClickListener {
@@ -13,7 +11,8 @@ public class Gui implements BoardClickListener {
 
     private MemoryBoard memoryBoard;
     private XSendAdapterEN xsend;
-    private Pair selectedPair;
+    private Pair selectedPair1;
+    private Pair selectedPair2;
     private boolean isSelected;
     private Board board;
 
@@ -38,42 +37,84 @@ public class Gui implements BoardClickListener {
     }
 
     public void update(Position clickedPosition) {
-        if (this.isSelected) {
-            if (this.isPositionFound(selectedPair, clickedPosition)) {
-                this.isSelected = false;
-            }
+        if (!this.isSelected) {
+            this.setPair1(clickedPosition);
+            this.isSelected = true;
+            this.draw(clickedPosition, this.selectedPair1.getColor());
         } else {
-            this.flipCard(clickedPosition);
+            this.setPair2(clickedPosition);
+            this.draw(clickedPosition,this.selectedPair2.getColor());
+            this.checkPairs();
+            this.isSelected = false;
         }
     }
 
-    public void flipCard(Position clickedPosition) {
+    public void checkPairs() {
+        if (this.isPairMatched()) {
+            this.removeMatchedPair();
+            this.checkGameOver();
+        } else {
+            this.hidePairs();
+        }
+    }
+
+    private void checkGameOver() {
+        if (this.memoryBoard.getPairs().size() == 0){
+            System.out.println("GAME OVER!!!");
+        }
+    }
+
+    public boolean isPairMatched() {
+        return this.selectedPair1.equals(this.selectedPair2);
+    }
+
+    public void removeMatchedPair() {
+        this.memoryBoard.getPairs().remove(this.selectedPair1);
+        this.draw(this.selectedPair1.getPosition1(), 0xEEEEEE);
+        this.draw(this.selectedPair2.getPosition2(), 0xEEEEEE);
+    }
+//        if (this.isSelected) {
+//            if (this.selectedPair1.isPositionFound(clickedPosition)) {
+//                this.memoryBoard.getPairs().remove(selectedPair1);
+//
+//            } else {
+//                clear();
+//            }
+//            this.setPair2(clickedPosition);
+//            this.draw(clickedPosition, this.selectedPair2.getColor());
+//            this.isSelected = false;
+//        } else {
+//            this.setPair1(clickedPosition);
+//            this.draw(clickedPosition, this.selectedPair1.getColor());
+//        }
+
+
+    public void setPair1(Position clickedPosition) {
         for (Pair pair : memoryBoard.getPairs()) {
-            if (this.isPositionFound(pair, clickedPosition)) {
-                this.selectedPair = pair;
-                this.isSelected = true;
-            } else {
-                System.out.println("cdwasg!!!!!!!vrae");
+            if (pair.isPositionFound(clickedPosition)) {
+                this.selectedPair1 = pair;
             }
         }
     }
 
-    public boolean isPositionFound(Pair pair, Position clickedPosition) {
-        if (pair.getPosition1().equals(clickedPosition)) {
-            this.draw(pair.getPosition1(), pair.getColor());
-            return true;
-        } else if (pair.getPosition2().equals(clickedPosition)) {
-            this.draw(pair.getPosition2(), pair.getColor());
-            return true;
+    public void setPair2(Position clickedPosition) {
+        for (Pair pair : memoryBoard.getPairs()) {
+            if (pair.isPositionFound(clickedPosition)) {
+                this.selectedPair2 = pair;
+            }
         }
-        return false;
     }
 
     public void draw(Position position, int color) {
         this.xsend.color2(position.getX(), position.getY(), color);
     }
 
-
+    public void hidePairs() {
+        this.xsend.color2(this.selectedPair1.getPosition1().getX(), this.selectedPair1.getPosition1().getY(), XSend.SILVER);
+        this.xsend.color2(this.selectedPair1.getPosition2().getX(), this.selectedPair1.getPosition2().getY(), XSend.SILVER);
+        this.xsend.color2(this.selectedPair2.getPosition1().getX(), this.selectedPair2.getPosition1().getY(), XSend.SILVER);
+        this.xsend.color2(this.selectedPair2.getPosition2().getX(), this.selectedPair2.getPosition2().getY(), XSend.SILVER);
+    }
 
     public Symbol getSymbol(Position position) {
         int linearBoardNumber = position.getX() + position.getY() * SIZE_X;

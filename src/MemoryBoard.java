@@ -8,7 +8,7 @@ import java.util.List;
 public class MemoryBoard {
 
     private List<Position> positions;
-    private Pair[] pairs;
+    private List<Pair> pairs;
     private XSendAdapterEN xSend;
 
     public MemoryBoard(XSendAdapterEN xSend){
@@ -16,10 +16,8 @@ public class MemoryBoard {
         this.positions = new ArrayList<>();
         initBoardPositions();
         Collections.shuffle(positions);
-        //positions.forEach(System.out::println);
-        this.pairs = new Pair[positions.size() / 2];
-        initPairs();
-        //draw();
+        this.pairs = new ArrayList<>(this.positions.size() / 2);
+        this.addPairs();
     }
     public void initBoardPositions() {
         for(int x = 0; x < Gui.SIZE_X; x++){
@@ -28,27 +26,25 @@ public class MemoryBoard {
             }
         }
     }
-    public void initPairs(){
-        pairs = new Pair[] {
-                new Pair(positions.get(0), positions.get(1), XSend.RED),
-                new Pair(positions.get(2), positions.get(3), XSend.BLUE),
-                new Pair(positions.get(4), positions.get(5), XSend.GREEN),
-                new Pair(positions.get(6), positions.get(7), XSend.YELLOW),
-                new Pair(positions.get(8), positions.get(9), XSend.BLACK),
-                new Pair(positions.get(10), positions.get(11), XSend.GRAY),
-                new Pair(positions.get(12), positions.get(13), XSend.DARKBLUE),
-                new Pair(positions.get(14), positions.get(15), XSend.AQUA),
-                new Pair(positions.get(16), positions.get(17), XSend.BEIGE),
-                new Pair(positions.get(18), positions.get(19), XSend.BLUEVIOLET),
-                new Pair(positions.get(20), positions.get(21), XSend.MISTYROSE),
-                new Pair(positions.get(22), positions.get(23), XSend.ORANGE),
-                new Pair(positions.get(24), positions.get(25), XSend.DARKRED),
-                new Pair(positions.get(26), positions.get(27), XSend.LIGHTGREEN),
-                new Pair(positions.get(28), positions.get(29), XSend.CRIMSON)
-        };
+    public void addPairs() {
+        this.pairs.add(new Pair(positions.get(0), positions.get(1), XSend.RED));
+        this.pairs.add(new Pair(positions.get(2), positions.get(3), XSend.BLUE));
+        this.pairs.add(new Pair(positions.get(4), positions.get(5), XSend.GREEN));
+        this.pairs.add(new Pair(positions.get(6), positions.get(7), XSend.YELLOW));
+        this.pairs.add(new Pair(positions.get(8), positions.get(9), XSend.DARKTURQUOISE));
+        this.pairs.add(new Pair(positions.get(10), positions.get(11), XSend.GRAY));
+        this.pairs.add(new Pair(positions.get(12), positions.get(13), XSend.DARKBLUE));
+        this.pairs.add(new Pair(positions.get(14), positions.get(15), XSend.AQUA));
+        this.pairs.add(new Pair(positions.get(16), positions.get(17), XSend.BEIGE));
+        this.pairs.add(new Pair(positions.get(18), positions.get(19), XSend.BLUEVIOLET));
+        this.pairs.add(new Pair(positions.get(20), positions.get(21), XSend.MISTYROSE));
+        this.pairs.add(new Pair(positions.get(22), positions.get(23), XSend.ORANGE));
+        this.pairs.add(new Pair(positions.get(24), positions.get(25), XSend.DARKRED));
+        this.pairs.add(new Pair(positions.get(26), positions.get(27), XSend.LIGHTGREEN));
+        this.pairs.add(new Pair(positions.get(28), positions.get(29), XSend.CRIMSON));
     }
 
-    public Pair[] getPairs() {
+    public List<Pair> getPairs() {
         return pairs;
     }
 
