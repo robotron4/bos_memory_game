@@ -2,6 +2,9 @@ import jserver.*;
 import jserver.Board;
 import plotter.Graphic;
 
+import java.util.ArrayList;
+import java.util.List;
+
 // xsendadapter, board, graphic
 
 public class Gui implements BoardClickListener {
@@ -15,6 +18,8 @@ public class Gui implements BoardClickListener {
     private Pair selectedPair2;
     private boolean isSelected;
     private Board board;
+    private List<Position> removedPositions;
+    private Position lastClickedPosition;
 
     public Gui(){
         xsend = new XSendAdapterEN();
@@ -29,6 +34,7 @@ public class Gui implements BoardClickListener {
         graphic.setLocationRelativeTo(null);
         memoryBoard = new MemoryBoard(xsend);
         isSelected = false;
+        removedPositions = new ArrayList<>(SIZE_X * SIZE_Y);
     }
 
     @Override
@@ -37,6 +43,14 @@ public class Gui implements BoardClickListener {
     }
 
     public void update(Position clickedPosition) {
+        if (this.lastClickedPosition != null && this.lastClickedPosition.equals(clickedPosition)) {
+            return;
+        }
+        for (Position position : this.removedPositions) {
+            if (clickedPosition.equals(position)) {
+                return;
+            }
+        }
         if (!this.isSelected) {
             this.setPair1(clickedPosition);
             this.isSelected = true;
@@ -47,6 +61,7 @@ public class Gui implements BoardClickListener {
             this.checkPairs();
             this.isSelected = false;
         }
+        this.lastClickedPosition = clickedPosition;
     }
 
     public void checkPairs() {
@@ -54,7 +69,15 @@ public class Gui implements BoardClickListener {
             this.removeMatchedPair();
             this.checkGameOver();
         } else {
-            this.hidePairs();
+            new java.util.Timer().schedule(
+                    new java.util.TimerTask() {
+                        @Override
+                        public void run() {
+                            hidePairs();
+                        }
+                    },
+                    500
+            );
         }
     }
 
@@ -72,6 +95,8 @@ public class Gui implements BoardClickListener {
         this.memoryBoard.getPairs().remove(this.selectedPair1);
         this.draw(this.selectedPair1.getPosition1(), 0xEEEEEE);
         this.draw(this.selectedPair2.getPosition2(), 0xEEEEEE);
+        this.removedPositions.add(this.selectedPair1.getPosition1());
+        this.removedPositions.add(this.selectedPair2.getPosition2());
     }
 
     public void setPair1(Position clickedPosition) {
